@@ -19,11 +19,11 @@ if __name__ == "__main__":
     # default seed
     seed = 5555
 
-    # default single coin-toss probability for "1"
-    prob = 0.5
+    # default rate parameter for cookie disappearance (cookies per day)
+    rate = 1.
 
-    # default number of coin tosses (per experiment)
-    Ntoss = 1
+    # default number of time measurements (time to next missing cookie) - per experiment
+    Nmeas = 1
 
     # default number of experiments
     Nexp = 1
@@ -35,16 +35,16 @@ if __name__ == "__main__":
     if '-seed' in sys.argv:
         p = sys.argv.index('-seed')
         seed = sys.argv[p+1]
-    if '-prob' in sys.argv:
-        p = sys.argv.index('-prob')
+    if '-rate' in sys.argv:
+        p = sys.argv.index('-rate')
         ptemp = float(sys.argv[p+1])
-        if ptemp >= 0 and ptemp <= 1:
-            prob = ptemp
-    if '-Ntoss' in sys.argv:
-        p = sys.argv.index('-Ntoss')
+        if ptemp > 0:
+            rate = ptemp
+    if '-Nmeas' in sys.argv:
+        p = sys.argv.index('-Nmeas')
         Nt = int(sys.argv[p+1])
         if Nt > 0:
-            Ntoss = Nt
+            Nmeas = Nt
     if '-Nexp' in sys.argv:
         p = sys.argv.index('-Nexp')
         Ne = int(sys.argv[p+1])
@@ -60,14 +60,16 @@ if __name__ == "__main__":
 
     if doOutputFile:
         outfile = open(OutputFileName, 'w')
+        outfile.write(str(rate)+" \n")
         for e in range(0,Nexp):
-            for t in range(0,Ntoss):
-                outfile.write(str(random.Bernoulli(prob))+" ")
+            for t in range(0,Nmeas):
+                outfile.write(str(random.Exponential(rate))+" ")
             outfile.write(" \n")
         outfile.close()
     else:
+        print(rate)
         for e in range(0,Nexp):
-            for t in range(0,Ntoss):
-                print(random.Bernoulli(prob), end=' ')
+            for t in range(0,Nmeas):
+                print(random.Exponential(rate), end=' ')
             print(" ")
    

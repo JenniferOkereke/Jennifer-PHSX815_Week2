@@ -68,16 +68,3 @@ class Random:
       X = -math.log(R)/beta
 
       return X
-
-
-     # function returns a random integer 8sided dice that will result to a probability of 1 which means each trial should be (0.125)
-    def eightsideddice(self, p=0.125, q=0.25, s=0.375, t=0.5, u=0.625, v=0.750, w=0.875):
-        if p < 0. or p > 1.:
-            return 1
-
-        R = self.rand()
-
-        if R < p:
-            return 1
-        else:
-            return 0
